@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "card_approval_rate",
+  "position": {
+    "x": 280,
+    "y": 20,
+    "z": 2000,
+    "height": 110,
+    "width": 240,
+    "tabOrder": 2000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            "Approval Rate %"
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

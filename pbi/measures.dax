@@ -1,0 +1,145 @@
+// ==============================================================================
+// 02_Credit_Risk: Enterprise DAX Measure Repository
+// ==============================================================================
+
+// -----------------------------------------------------------------------------
+// 1. Portfolio Volume & Loan Sizing Metrics
+// -----------------------------------------------------------------------------
+[Total Applications] = 
+COUNTROWS(fact_loan_portfolio)
+
+[Total Funded Volume] = 
+SUM(fact_loan_portfolio[funded_amount])
+
+[Avg Loan Amount] = 
+AVERAGE(fact_loan_portfolio[loan_amount])
+
+[Avg Interest Rate] = 
+AVERAGE(fact_loan_portfolio[interest_rate])
+
+[Avg Credit Score] = 
+AVERAGE(fact_loan_portfolio[credit_score])
+
+// -----------------------------------------------------------------------------
+// 2. Default & Loss Metrics (Baseline)
+// -----------------------------------------------------------------------------
+[Default Loans] = 
+CALCULATE(
+    COUNTROWS(fact_loan_portfolio),
+    fact_loan_portfolio[is_default] = 1
+)
+
+[Default Rate %] = 
+DIVIDE(
+    [Default Loans],
+    [Total Applications],
+    0.0
+)
+
+[Total Default Losses] = 
+CALCULATE(
+    SUM(fact_loan_portfolio[net_charge_off_loss]),
+    fact_loan_portfolio[is_default] = 1
+)
+
+[Loss Rate %] = 
+DIVIDE(
+    [Total Default Losses],
+    [Total Funded Volume],
+    0.0
+)
+
+[Expected Loss (EL)] = 
+VAR PD = [Default Rate %]
+VAR LGD = 0.60
+VAR EAD = [Total Funded Volume]
+RETURN
+PD * LGD * EAD
+
+[High Risk Loan Count] = 
+CALCULATE(
+    COUNTROWS(fact_loan_portfolio),
+    fact_loan_portfolio[credit_score] < 600
+)
+
+[High Risk %] = 
+DIVIDE(
+    [High Risk Loan Count],
+    [Total Applications],
+    0.0
+)
+
+// -----------------------------------------------------------------------------
+// 3. Dynamic Cut-Off Parameter & What-If Simulation
+// -----------------------------------------------------------------------------
+[Active Cutoff Threshold] = 
+SELECTEDVALUE(
+    Cutoff_Parameter[Cutoff_Value],
+    640
+)
+
+[Approved Applications] = 
+CALCULATE(
+    [Total Applications],
+    fact_loan_portfolio[credit_score] >= [Active Cutoff Threshold]
+)
+
+[Approval Rate %] = 
+DIVIDE(
+    [Approved Applications],
+    [Total Applications],
+    0.0
+)
+
+[Declined Applications] = 
+[Total Applications] - [Approved Applications]
+
+[Decline Rate %] = 
+1.0 - [Approval Rate %]
+
+[Approved Default Loans] = 
+CALCULATE(
+    [Default Loans],
+    fact_loan_portfolio[credit_score] >= [Active Cutoff Threshold]
+)
+
+[Portfolio Default Rate @ Cutoff %] = 
+DIVIDE(
+    [Approved Default Loans],
+    [Approved Applications],
+    0.0
+)
+
+[Approved Funded Volume] = 
+CALCULATE(
+    [Total Funded Volume],
+    fact_loan_portfolio[credit_score] >= [Active Cutoff Threshold]
+)
+
+[Approved Good Volume] = 
+CALCULATE(
+    [Total Funded Volume],
+    fact_loan_portfolio[credit_score] >= [Active Cutoff Threshold],
+    fact_loan_portfolio[is_default] = 0
+)
+
+[Expected Portfolio Profit] = 
+VAR MarginRate = 0.085
+VAR LGDRate = 0.600
+VAR ProjectedRevenue = [Approved Good Volume] * MarginRate
+VAR ProjectedLosses = 
+    CALCULATE(
+        SUM(fact_loan_portfolio[net_charge_off_loss]),
+        fact_loan_portfolio[credit_score] >= [Active Cutoff Threshold]
+    ) * LGDRate
+RETURN
+ProjectedRevenue - ProjectedLosses
+
+[Profit Relative to Uncalibrated %] = 
+VAR BaseProfit = ([Total Funded Volume] * (1 - [Default Rate %]) * 0.085) - ([Total Default Losses] * 0.60)
+RETURN
+DIVIDE(
+    [Expected Portfolio Profit] - BaseProfit,
+    BaseProfit,
+    0.0
+)

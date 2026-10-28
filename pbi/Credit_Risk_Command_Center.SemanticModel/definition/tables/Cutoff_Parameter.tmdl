@@ -1,0 +1,12 @@
+table Cutoff_Parameter
+	lineageTag: 20000000-0000-0000-0000-000000000006
+
+	column Cutoff_Value
+		dataType: int64
+		isKey
+		formatString: 0
+		sourceColumn: Cutoff_Value
+
+	partition Cutoff_Parameter = calculated
+		mode: import
+		source = GENERATESERIES(500, 750, 10)

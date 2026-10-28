@@ -1,0 +1,34 @@
+table dim_risk_grade
+	lineageTag: 20000000-0000-0000-0000-000000000002
+
+	column risk_grade_key
+		dataType: int64
+		isKey
+		formatString: 0
+		sourceColumn: risk_grade_key
+
+	column grade
+		dataType: string
+		sourceColumn: grade
+
+	column sub_grade
+		dataType: string
+		sourceColumn: sub_grade
+
+	column grade_rank
+		dataType: int64
+		sourceColumn: grade_rank
+
+	column benchmark_loss_rate_pct
+		dataType: double
+		formatString: "0.0%"
+		sourceColumn: benchmark_loss_rate_pct
+
+	partition dim_risk_grade = m
+		mode: import
+		source = 
+			let
+				Source = Csv.Document(File.Contents("data/dim_risk_grade.csv"), [Delimiter=",", Columns=5, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+			in
+				#"Promoted Headers"

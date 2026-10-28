@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "bar_grade_risk",
+  "position": {
+    "x": 20,
+    "y": 150,
+    "z": 4000,
+    "height": 520,
+    "width": 620,
+    "tabOrder": 4000
+  },
+  "visual": {
+    "visualType": "barChart",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            "Default Rate % by Grade"
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

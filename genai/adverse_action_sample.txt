@@ -1,0 +1,57 @@
+================================================================================
+NOTICE OF ADVERSE ACTION AND CREDIT DISCLOSURE
+Statement of Credit Denial, Termination, or Change (Regulation B - ECOA / FCRA)
+================================================================================
+
+Date: October 28, 2026
+Applicant Reference ID: 1021141
+Requested Loan Amount: $30,000.00
+Credit Application Status: DECLINED
+
+Dear Applicant,
+
+Thank you for your recent application for an unsecured consumer installment loan.
+We regret to inform you that after careful review of your application and credit bureau
+profile, we are unable to approve your request at this time.
+
+--------------------------------------------------------------------------------
+1. PRINCIPAL REASONS FOR CREDIT DENIAL (ECOA / REGULATION B § 1002.9):
+--------------------------------------------------------------------------------
+Our credit decision was based in whole or in part upon the following key factors:
+
+  [1] High interest rate tier associated with elevated credit risk profile (Observed Value: 17.9)
+  [2] History of past delinquency on existing or previous credit lines (Observed Value: 1.0)
+  [3] Debt-to-income ratio exceeds institutional underwriting threshold (Observed Value: 25.3)
+
+--------------------------------------------------------------------------------
+2. CREDIT SCORE DISCLOSURE (FCRA SECTION 615(a)):
+--------------------------------------------------------------------------------
+Your credit score was used in evaluating your application:
+  - Your Calibrated Credit Score:  554
+  - Institutional Approval Cut-Off: 640
+  - Scoring Range:                  300 to 850 points
+  - Scoring Methodology:            Proprietary Empirical Scorecard calibrated
+                                    using Points-to-Double-Odds (PDO) scaling.
+
+--------------------------------------------------------------------------------
+3. NOTICE OF FAIR LENDING & EQUAL CREDIT OPPORTUNITY RIGHTS:
+--------------------------------------------------------------------------------
+The Federal Equal Credit Opportunity Act prohibits creditors from discriminating
+against credit applicants on the basis of race, color, religion, national origin,
+sex, marital status, age (provided the applicant has the capacity to enter into
+a binding contract); because all or part of the applicant's income derives from
+any public assistance program; or because the applicant has in good faith
+exercised any right under the Consumer Credit Protection Act.
+
+The federal agency that administers compliance with this law concerning this
+creditor is:
+  Consumer Financial Protection Bureau (CFPB)
+  1700 G Street NW, Washington, DC 20552
+
+If you have questions regarding this notice or wish to obtain a full disclosure of
+the information in your credit report, you have the right to request a free copy
+within 60 days from the credit reporting agency.
+
+Sincerely,
+Credit Underwriting & Risk Governance Committee
+================================================================================

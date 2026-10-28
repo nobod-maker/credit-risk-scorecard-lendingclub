@@ -1,0 +1,25 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "card_approved_bad_rate",
+  "position": {
+    "x": 540,
+    "y": 20,
+    "z": 3000,
+    "height": 110,
+    "width": 240,
+    "tabOrder": 3000
+  },
+  "visual": {
+    "visualType": "card",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            "Portfolio Default Rate @ Cutoff %"
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

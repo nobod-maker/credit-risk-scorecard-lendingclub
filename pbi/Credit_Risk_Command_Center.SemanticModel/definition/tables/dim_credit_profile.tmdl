@@ -1,0 +1,37 @@
+table dim_credit_profile
+	lineageTag: 20000000-0000-0000-0000-000000000004
+
+	column credit_profile_key
+		dataType: int64
+		isKey
+		formatString: 0
+		sourceColumn: credit_profile_key
+
+	column dti_band
+		dataType: string
+		sourceColumn: dti_band
+
+	column revol_util_band
+		dataType: string
+		sourceColumn: revol_util_band
+
+	column delinq_2yrs_flag
+		dataType: int64
+		sourceColumn: delinq_2yrs_flag
+
+	column inq_last_6mths_band
+		dataType: string
+		sourceColumn: inq_last_6mths_band
+
+	column credit_history_years
+		dataType: double
+		sourceColumn: credit_history_years
+
+	partition dim_credit_profile = m
+		mode: import
+		source = 
+			let
+				Source = Csv.Document(File.Contents("data/dim_credit_profile.csv"), [Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+			in
+				#"Promoted Headers"

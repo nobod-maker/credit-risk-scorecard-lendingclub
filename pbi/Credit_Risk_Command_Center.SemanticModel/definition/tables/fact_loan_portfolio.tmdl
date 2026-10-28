@@ -1,0 +1,101 @@
+table fact_loan_portfolio
+	lineageTag: 20000000-0000-0000-0000-000000000001
+
+	column loan_key
+		dataType: int64
+		isKey
+		formatString: 0
+		sourceColumn: loan_key
+
+	column loan_id
+		dataType: int64
+		sourceColumn: loan_id
+
+	column issue_date_key
+		dataType: int64
+		sourceColumn: issue_date_key
+
+	column borrower_key
+		dataType: int64
+		sourceColumn: borrower_key
+
+	column credit_profile_key
+		dataType: int64
+		sourceColumn: credit_profile_key
+
+	column risk_grade_key
+		dataType: int64
+		sourceColumn: risk_grade_key
+
+	column loan_term_months
+		dataType: int64
+		sourceColumn: loan_term_months
+
+	column loan_amount
+		dataType: decimal
+		formatString: "$#,##0"
+		sourceColumn: loan_amount
+
+	column funded_amount
+		dataType: decimal
+		formatString: "$#,##0"
+		sourceColumn: funded_amount
+
+	column interest_rate
+		dataType: double
+		formatString: "0.0%"
+		sourceColumn: interest_rate
+
+	column monthly_installment
+		dataType: decimal
+		sourceColumn: monthly_installment
+
+	column total_collected
+		dataType: decimal
+		sourceColumn: total_collected
+
+	column net_charge_off_loss
+		dataType: decimal
+		formatString: "$#,##0"
+		sourceColumn: net_charge_off_loss
+
+	column is_default
+		dataType: int64
+		sourceColumn: is_default
+
+	column predicted_default_prob
+		dataType: double
+		formatString: "0.0%"
+		sourceColumn: predicted_default_prob
+
+	column credit_score
+		dataType: int64
+		formatString: 0
+		sourceColumn: credit_score
+
+	measure 'Total Applications' = COUNTROWS(fact_loan_portfolio)
+		formatString: "#,##0"
+
+	measure 'Total Funded Volume' = SUM(fact_loan_portfolio[funded_amount])
+		formatString: "$#,##0"
+
+	measure 'Default Loans' = CALCULATE(COUNTROWS(fact_loan_portfolio), fact_loan_portfolio[is_default] = 1)
+		formatString: "#,##0"
+
+	measure 'Default Rate %' = DIVIDE([Default Loans], [Total Applications], 0.0)
+		formatString: "0.0%"
+
+	measure 'Total Default Losses' = CALCULATE(SUM(fact_loan_portfolio[net_charge_off_loss]), fact_loan_portfolio[is_default] = 1)
+		formatString: "$#,##0"
+
+	measure 'Avg Credit Score' = AVERAGE(fact_loan_portfolio[credit_score])
+		formatString: 0
+
+	partition fact_loan_portfolio = m
+		mode: import
+		source = 
+			let
+				Source = Csv.Document(File.Contents("data/fact_loan_portfolio.csv"), [Delimiter=",", Columns=16, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+			in
+				#"Promoted Headers"

@@ -1,0 +1,38 @@
+table dim_borrower
+	lineageTag: 20000000-0000-0000-0000-000000000003
+
+	column borrower_key
+		dataType: int64
+		isKey
+		formatString: 0
+		sourceColumn: borrower_key
+
+	column emp_length_bucket
+		dataType: string
+		sourceColumn: emp_length_bucket
+
+	column home_ownership
+		dataType: string
+		sourceColumn: home_ownership
+
+	column annual_income
+		dataType: decimal
+		formatString: "$#,##0"
+		sourceColumn: annual_income
+
+	column income_bracket
+		dataType: string
+		sourceColumn: income_bracket
+
+	column verification_status
+		dataType: string
+		sourceColumn: verification_status
+
+	partition dim_borrower = m
+		mode: import
+		source = 
+			let
+				Source = Csv.Document(File.Contents("data/dim_borrower.csv"), [Delimiter=",", Columns=6, Encoding=65001, QuoteStyle=QuoteStyle.None]),
+				#"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true])
+			in
+				#"Promoted Headers"

@@ -1,0 +1,15 @@
+relationship Rel_IssueDate_Fact
+	fromColumn: fact_loan_portfolio.issue_date_key
+	toColumn: dim_date.date_key
+
+relationship Rel_RiskGrade_Fact
+	fromColumn: fact_loan_portfolio.risk_grade_key
+	toColumn: dim_risk_grade.risk_grade_key
+
+relationship Rel_Borrower_Fact
+	fromColumn: fact_loan_portfolio.borrower_key
+	toColumn: dim_borrower.borrower_key
+
+relationship Rel_CreditProfile_Fact
+	fromColumn: fact_loan_portfolio.credit_profile_key
+	toColumn: dim_credit_profile.credit_profile_key
